@@ -1,3 +1,4 @@
+package carproject;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15,19 +16,17 @@ class MageeSemaphore
 	sem = new Semaphore(initialCount, true);
    } // end constructor
 	
-   public void acquire() 
+   public void p() 
    {
-	try {
-            System.out.println("Semaphore acquired");
+	try {            
 	    sem.acquire();
 	} catch (InterruptedException ex) {
             System.out.println("Interrupted when waiting");
         }
    } // end P()
 	
-   public void release() 
+   public void v() 
    {
-                   System.out.println("Semaphore released");
 	sem.release();
    } // end V()
 	
