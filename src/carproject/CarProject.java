@@ -41,10 +41,31 @@ public class CarProject {
         {
             cars[i] = new Car();
 	    cars[i].start(); // starts the car thread
+            //Spin thread for each car & generate car type and direction
+
+            //Try to acquire a semaphore for first tile in car's way
+            //roadTile[i].acquire();
+            
+            //Some tiles require additional semaphore since
+            //only 3 cars can enter junction to avoid livelock
+            
+            //Test whether tile is junction and if so check whether junction 
+            //can be acquired
+            //junction.acquire();
+            
+            //Sleep for 0.5s on each tile
+            
+            //Print output
+            
+            //Repeat acquisition process for each tile
+            
+            
+            //Aditional
+            //Create car sprites
+            //Create junction GUI
+            //Add transitions
         }       
-        //roadTile[i].acquire();
-        //junction.acquire();
-        //Try to get junction for semaphore
+
     }     
     
     private void RenderGraphics(){
@@ -53,7 +74,3 @@ public class CarProject {
        
 }
 
-//Car A B C
-//FORWARD LEFT RIGHT
-
-//ENTER TILE
