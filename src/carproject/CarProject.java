@@ -5,45 +5,55 @@
  */
 package carproject;
 
-import java.nio.Buffer;
-
 /**
  *
  * @author Przemek
  */
 public class CarProject {
     
-    int noOfCars = 20;	
-    int maxAllowed = 3;
+    final int noOfCars = 20;	
+    final int maxAllowed = 2;
+    final int junctionSize = 12;
     
     public Car[] cars;
-    public MageeSemaphore junction;//Up to 3 
+    public MageeSemaphore junction;//Up to 3     
+    public MageeSemaphore[] roadTile; //Individual semaphores
     
-    public MageeSemaphore[] tile; //Individual semaphores
-    
-    private void init() {
+    public static void main(String[] args) {
+        CarProject start = new CarProject();
+                start.init();       
         
-        this.junction = new MageeSemaphore[4]; 
-        this.cars = new Car[noOfCars];
+        // TODO code application logic here
+        System.out.println("ok");
+    }   
     
+    private void init() {   
+        this.cars = new Car[noOfCars];
+        this.junction = new MageeSemaphore(maxAllowed);
+        this.roadTile = new MageeSemaphore[junctionSize];
+        
+        for(int i = 0; i < roadTile.length - 1; i++){
+            System.out.println("road tile semaphore");
+            roadTile[i] = new MageeSemaphore(1);
+        }
+        
     	for(int i = 0; i < noOfCars; i++)
         {
             cars[i] = new Car();
 	    cars[i].start(); // starts the car thread
-        }    
-        
+        }       
+        //roadTile[i].acquire();
+        //junction.acquire();
         //Try to get junction for semaphore
-    }    
+    }     
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        CarProject start = new CarProject();
-        start.init();
-        
-        // TODO code application logic here
-        System.out.println("ok");
-    }    
+    private void RenderGraphics(){
+    
+    }
+       
 }
 
+//Car A B C
+//FORWARD LEFT RIGHT
+
+//ENTER TILE
