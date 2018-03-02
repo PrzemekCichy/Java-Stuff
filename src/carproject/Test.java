@@ -24,8 +24,9 @@ public class Test {
                 JFrame frame = new JFrame("Junction App");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new BackgorundPane());
-                //frame.pack();
-                //frame.setLocationRelativeTo(null);
+                //frame.add(new Cars());
+                frame.pack();
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
             }
         });
@@ -79,7 +80,7 @@ public class Test {
             super.paintComponent(g);
             Graphics2D g2d = (Graphics2D) g.create();
             if (img != null) {
-                img = img.get
+                img = img.getSubimage(0, 0, 54, 54);
                 g2d.drawImage(img, 0, 0, this);
             }
             g2d.dispose();
