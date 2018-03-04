@@ -28,25 +28,24 @@ public class CarProject {
     
     private void init() {
         this.junction = new MageeSemaphore(3);        
-        this.roadTiles = new MageeSemaphore[junctionSize];
+        this.roadTiles = new MageeSemaphore[this.junctionSize];
         
-        activity = new Activity(junctionString);
+        this.activity = new Activity(this.junctionString);
         
         
-        for(int i = 0; i < junctionString.length; i++){
-            junctionString[i] = "[..]";
-        }
-        System.out.println(this.activity.roadJunctionString());
+        for(int i = 0; i < this.junctionString.length; i++){
+            this.junctionString[i] = "[..]";
+        }        
         
-        for(int i = 0; i < roadTiles.length; i++){
+        for(int i = 0; i < this.roadTiles.length; i++){
             System.out.println("road tile semaphore");
-            roadTiles[i] = new MageeSemaphore(1);
+            this.roadTiles[i] = new MageeSemaphore(1);
         }
         
-        this.DispatcherA = new Dispatcher(this.junction, this.roadTiles, "A");
-        this.DispatcherB = new Dispatcher(this.junction, this.roadTiles, "B");
-        this.DispatcherC = new Dispatcher(this.junction, this.roadTiles, "C");
-        this.DispatcherD = new Dispatcher(this.junction, this.roadTiles, "D");        
+        this.DispatcherA = new Dispatcher(junction,  roadTiles, junctionString, activity, "A");
+        this.DispatcherB = new Dispatcher(junction, roadTiles, junctionString, activity, "B");
+        this.DispatcherC = new Dispatcher(junction, roadTiles, junctionString, activity, "C");
+        this.DispatcherD = new Dispatcher(junction, roadTiles, junctionString, activity, "D");        
                 
     	for(int i = 0; i < noOfCars; i++)
         {

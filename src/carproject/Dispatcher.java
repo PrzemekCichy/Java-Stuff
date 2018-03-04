@@ -38,15 +38,18 @@ public class Dispatcher extends Thread{
     private MageeSemaphore junction;//Up to 3     
     private MageeSemaphore[] roadTiles;//Up to 3  
     private String name;
+    private String[] junctionString;
+    private Activity activity;
                 
     public Queue<Car> queue;
     
-     public Dispatcher(MageeSemaphore junction, MageeSemaphore[] roadTiles, String name) 
+     public Dispatcher(MageeSemaphore junction, MageeSemaphore[] roadTiles, String[] junctionString, Activity activity, String name) 
      {
         this.junction = junction;        
         this.roadTiles = roadTiles;
         this.name = name;
-
+        this.activity = activity;
+        this.junctionString = junctionString;
         this.queue = new ArrayDeque<>();    
         
      }
@@ -64,9 +67,11 @@ public class Dispatcher extends Thread{
                 //this.activity. slots[1]=”[…..]”
                 
                 System.out.println(this.name + " " +  c.tiles[i]);
-                CDS.idleQuietly(500);
+                
                 //Dispatcher.activity.addMovedTo(i);
-
+                junctionString[c.tiles[i]] = "["+ c.origin + c.index +"]";
+                System.out.println(this.activity.roadJunctionString());
+                CDS.idleQuietly(11500);
                 //Dispatcher.activity.printActivities();
                 //Dispatcher.activity.addMessage("Message " + Integer.toString(i));                
                 
