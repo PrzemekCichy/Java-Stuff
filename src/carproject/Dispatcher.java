@@ -56,6 +56,7 @@ public class Dispatcher extends Thread{
 
      public void run() 
      {
+         while(!this.queue.isEmpty()){
              this.junction.p();
              Car c = this.queue.remove();
              //Dispatcher.activity.addMessage("Car " + c.origin + 
@@ -66,12 +67,15 @@ public class Dispatcher extends Thread{
                 this.roadTiles[c.tiles[i]].p();     
                 //this.activity. slots[1]=”[…..]”
                 
-                System.out.println(this.name + " " +  c.tiles[i]);
-                
+                System.out.println(c.origin + " " + c.index);
+                if(i != 0){
+                    junctionString[c.tiles[i-1]] = "[..]";
+                }
                 //Dispatcher.activity.addMovedTo(i);
-                junctionString[c.tiles[i]] = "["+ c.origin + c.index +"]";
+                junctionString[c.tiles[i]] = "["+ c.origin + c.index + "]";
                 System.out.println(this.activity.roadJunctionString());
-                CDS.idleQuietly(11500);
+                CDS.idleQuietly(500);
+
                 //Dispatcher.activity.printActivities();
                 //Dispatcher.activity.addMessage("Message " + Integer.toString(i));                
                 
@@ -79,10 +83,13 @@ public class Dispatcher extends Thread{
                 
                 this.roadTiles[c.tiles[i]].v();
              }
+             junctionString[c.tiles[c.tiles.length-1]] = "[..]";
+             System.out.println(this.activity.roadJunctionString());
              //System.out.print("\n");
              //System.out.println(this.name + " released lock");
              this.junction.v();
              //System.out.println(this.name + " released lock");
-         
+         }
      } // end run
+     
 }

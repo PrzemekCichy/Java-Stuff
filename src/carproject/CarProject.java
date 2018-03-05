@@ -14,8 +14,8 @@ public class CarProject {
     private Dispatcher DispatcherC;
     private Dispatcher DispatcherD;
     
-    public static String[] junctionString = new String[12];
-    public static Activity activity;
+    public String[] junctionString = new String[junctionSize];
+    public Activity activity;
 
     
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class CarProject {
     }   
     
     private void init() {
-        this.junction = new MageeSemaphore(3);        
+        this.junction = new MageeSemaphore(maxAllowed);        
         this.roadTiles = new MageeSemaphore[this.junctionSize];
         
         this.activity = new Activity(this.junctionString);
@@ -70,9 +70,18 @@ public class CarProject {
         this.DispatcherA.start();
         this.DispatcherB.start();
         this.DispatcherC.start();
-        this.DispatcherD.start();    
+        this.DispatcherD.start();  
         
+        try{
+        this.DispatcherA.join();
+        this.DispatcherB.join();
+        this.DispatcherC.join();
+        this.DispatcherD.join();
+        } catch(Exception e){
         
+        }
+        
+        System.out.println(this.activity.roadJunctionString());
         
     }     
         
