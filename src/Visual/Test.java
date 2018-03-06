@@ -1,6 +1,5 @@
-package Old;
+package Visual;
 
-import Old.Display;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -27,6 +26,7 @@ public class Test {
                 JFrame frame = new JFrame("Junction App");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new BackgorundPane());
+                frame.add(new Cars());
                 //frame.add(new Cars());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
@@ -41,7 +41,7 @@ public class Test {
 
         public BackgorundPane() {
             try {
-                img = ImageIO.read(Display.class.getResource("/carproject/71e.png"));
+                img = ImageIO.read(Display.class.getResource("Background1.png"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -68,7 +68,7 @@ public class Test {
 
         public Cars() {
             try {
-                img = ImageIO.read(Display.class.getResource("/carproject/71e.png"));
+                img = ImageIO.read(Display.class.getResource("Cars.png"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

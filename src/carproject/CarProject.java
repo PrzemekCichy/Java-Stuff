@@ -3,7 +3,7 @@ package carproject;
 public class CarProject {
     
     final int noOfCars = 100;	
-    final int maxAllowed = 3;
+    final int maxAllowed = 8;
     final int junctionSize = 12;
     
     private MageeSemaphore junction;//Up to 3     
