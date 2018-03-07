@@ -37,13 +37,13 @@ import java.util.concurrent.*;
 public class Dispatcher extends Thread{
     private MageeSemaphore junction;//Up to 3     
     private MageeSemaphore[] roadTiles;//Up to 3  
-    private String name;
+    private int name;
     private String[] junctionString;
     private Activity activity;
                 
     public Queue<Car> queue;
     
-     public Dispatcher(MageeSemaphore junction, MageeSemaphore[] roadTiles, String[] junctionString, Activity activity, String name) 
+     public Dispatcher(MageeSemaphore junction, MageeSemaphore[] roadTiles, String[] junctionString, Activity activity, int name) 
      {
         this.junction = junction;        
         this.roadTiles = roadTiles;
@@ -67,14 +67,24 @@ public class Dispatcher extends Thread{
                 this.roadTiles[c.tiles[i]].p();     
                 //this.activity. slots[1]=”[…..]”
                 
+                
+                String next = "";
+                if(i + 1 != c.tiles.length){
+                    next = Integer.toString(c.tiles[i+1]);
+                }
+                System.out.println("Translate" + c.tiles[i] + "," + next + " N:" + this.name);
+                CarProject.gui.translateCar(c.tiles[i] + "," + next, this.name);
+                
                 System.out.println(c.origin + " " + c.index);
                 if(i != 0){
-                    junctionString[c.tiles[i-1]] = "[..]";
+                //    junctionString[c.tiles[i-1]] = "[..]";
                 }
+                
+                
                 //Dispatcher.activity.addMovedTo(i);
-                junctionString[c.tiles[i]] = "["+ c.origin + c.index + "]";
-                System.out.println(this.activity.roadJunctionString());
-                CDS.idleQuietly(500);
+                //junctionString[c.tiles[i]] = "["+ c.origin + c.index + "]";
+                //System.out.println(this.activity.roadJunctionString());
+                CDS.idleQuietly(550);
 
                 //Dispatcher.activity.printActivities();
                 //Dispatcher.activity.addMessage("Message " + Integer.toString(i));                
@@ -83,8 +93,8 @@ public class Dispatcher extends Thread{
                 
                 this.roadTiles[c.tiles[i]].v();
              }
-             junctionString[c.tiles[c.tiles.length-1]] = "[..]";
-             System.out.println(this.activity.roadJunctionString());
+             //junctionString[c.tiles[c.tiles.length-1]] = "[..]";
+             //System.out.println(this.activity.roadJunctionString());
              //System.out.print("\n");
              //System.out.println(this.name + " released lock");
              this.junction.v();
