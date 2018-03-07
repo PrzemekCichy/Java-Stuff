@@ -39,6 +39,10 @@ import javax.imageio.ImageIO;
 
 public class PathTDemo extends Application {
 
+    private HashMap<String, PathElement[]> transitions = new HashMap<String, PathElement[]>();
+    private ImageView background = new ImageView();
+    private ImageView[] carImg = new ImageView[4];
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -46,9 +50,50 @@ public class PathTDemo extends Application {
     @Override
     public void start(Stage primaryStage) {
         //Initialize images
-        ImageView background = new ImageView();
-        ImageView[] carImg = new ImageView[4];
 
+        loadImages();
+
+        populateTransitions();
+
+        PathTransition[] anim = new PathTransition[4];
+        for (int i = 0; i < 4; i++) {
+            anim[i] = new PathTransition();
+            anim[i].setNode(carImg[i]);
+            anim[i].setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
+            anim[i].setInterpolator(Interpolator.LINEAR);
+            anim[i].setDuration(new Duration(1500));
+            anim[i].setCycleCount(122);
+        }
+
+        Group root = new Group();
+        root.getChildren().addAll(background, carImg[0], carImg[1], carImg[2], carImg[3]);
+
+        Path path0 = new Path();
+        path0.getElements().addAll(transitions.get("0,1"));
+        Path path1 = new Path();
+        path1.getElements().addAll(transitions.get("1,2"));
+        Path path2 = new Path();
+        path2.getElements().addAll(transitions.get("2,3"));
+        Path path3 = new Path();
+        path3.getElements().addAll(transitions.get("1,9"));
+
+        anim[0].setPath(path0);
+        anim[1].setPath(path1);
+        anim[2].setPath(path2);
+        anim[3].setPath(path3);
+
+        anim[0].play();
+        anim[1].play();
+        anim[2].play();
+        anim[3].play();
+        Scene scene = new Scene(root, 852, 855, Color.BLACK);
+
+        primaryStage.setTitle("PathTransition Demo");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void loadImages() {
         try {
             background.setImage(SwingFXUtils.toFXImage(ImageIO.read(BasicOpsTest.class.getResource("Background1.png")), null));
             BufferedImage car = ImageIO.read(BasicOpsTest.class.getResource("Cars.png"));
@@ -58,165 +103,108 @@ public class PathTDemo extends Application {
                 carImg[i] = new ImageView();
                 carImg[i].setImage(SwingFXUtils.toFXImage(tempCar, null));
             }
-
         } catch (IOException ex) {
 
         }
+    }
 
-        //Create paths between tiles
-        //ArrayList<PathElement[]> paths = new ArrayList<PathElement[]>();        
-        PathElement[] path = {
-            new MoveTo(0, 0),
-            new LineTo(0, 0),
-            new LineTo(0, 400),
-            new LineTo(400, 400),
-            new LineTo(400, 0),
-            new LineTo(0, 0),
-            new ClosePath()
-        };
-        
-        Path road = new Path();
-        road.setStroke(Color.BLACK);
-        road.setStrokeWidth(75);
-        road.getElements().addAll(path);
-
-        HashMap<String,PathElement[]> transitions = new HashMap<String, PathElement[]>();
-        
-        transitions.put("01", new PathElement[] {
-            new MoveTo(0, 0),
-            new LineTo(0, 0),
-            new LineTo(0, 400),
-            new LineTo(400, 400),
-            new LineTo(400, 0),
-            new LineTo(0, 0),
-            new ClosePath()
-        });
-        
-        PathElement[] path01 = {
-            new MoveTo(0, 0),
-            new LineTo(0, 0),
-            new LineTo(0, 400),
-            new LineTo(400, 400),
-            new LineTo(400, 0),
-            new LineTo(0, 0),
-            new ClosePath()
-        };
-
-
+    private void populateTransitions() {
         //0
-        carImg[1].setX(268);
-        carImg[1].setY(348);
-        carImg[1].setRotate(270);
-        
+        //268,348
         //1
-        carImg[0].setX(351);
-        carImg[0].setY(348);
-        carImg[0].setRotate(270);
-        
+        //351,348
         //2
-        carImg[2].setX(435);
-        carImg[2].setY(348);
-        carImg[2].setRotate(270);
-        
+        //435,348
         //3
-        carImg[2].setX(515);
-        carImg[2].setY(348);
-        carImg[2].setRotate(270);
-        
+        //515,348
         //4
-        carImg[3].setX(515);
-        carImg[3].setY(429);
-        carImg[3].setRotate(270);
-    
+        //515,429
         //5
-        carImg[3].setX(435);
-        carImg[3].setY(429);
-        carImg[3].setRotate(270);
-
+        //435,429
         //6
-        carImg[3].setX(351);
-        carImg[3].setY(429);
-        carImg[3].setRotate(270);
-        
+        //351,429
         //7
-        carImg[3].setX(268);
-        carImg[3].setY(429);
-        carImg[3].setRotate(270);        
-
+        //268,429
         //8
-        carImg[3].setX(351);
-        carImg[3].setY(515);
-        carImg[3].setRotate(270);
-
+        //351,515
         //9
-        carImg[2].setX(351);
-        carImg[2].setY(268);
-        carImg[2].setRotate(270);
-        
-        
+        //351,268
+        //10
+        //435,268
         //11
-        carImg[3].setX(435);
-        carImg[3].setY(515);
-        carImg[3].setRotate(270);    
-        
-        PathTransition[] anim = new PathTransition[4];
-        for (int i = 0; i < 4; i++) {
-            anim[i] = new PathTransition();
-            anim[i].setNode(carImg[i]);
-            anim[i].setPath(road);
-            anim[i].setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
-            anim[i].setInterpolator(Interpolator.LINEAR);
-            anim[i].setDuration(new Duration(500));
-            anim[i].setCycleCount(0);
-        }
+        //435,515
 
-        Group root = new Group();
-        root.getChildren().addAll(background, carImg[0], carImg[1], carImg[2], carImg[3]);
-
-        
-        
-        root.setOnMouseClicked(me  -> {            
-            if (Math.random() < 0.5) {
-                PathElement[] newPath = {
-                    new MoveTo(0, 0),
-                    new LineTo(0, 0),
-                    new LineTo(0, 200)
-                };
-                Path newRoad = new Path();
-                newRoad.getElements().addAll(newPath);
-
-                System.out.println("Ayy lmao 89");
-                anim[0].stop();
-                anim[0].setPath(newRoad);
-                anim[0].play();
-            } else {
-
-                PathElement[] newPath1 = {
-                    new MoveTo(0, 200),
-                    new LineTo(0, 200),
-                    new LineTo(200, 200)
-                };
-                Path newRoad1 = new Path();
-                newRoad1.getElements().addAll(newPath1);
-
-                System.out.println("Ayy lmao 89");
-                anim[0].stop();
-                anim[0].setPath(newRoad1);
-                anim[0].play();
-
-            }
+        //Move Right
+        transitions.put("0,1", new PathElement[]{
+            new MoveTo(268, 348),
+            new LineTo(351, 348)
+        });
+        transitions.put("1,2", new PathElement[]{
+            new MoveTo(351, 348),
+            new LineTo(435, 348)
+        });
+        transitions.put("2,3", new PathElement[]{
+            new MoveTo(435, 348),
+            new LineTo(515, 348)
+        });
+        transitions.put("3,", new PathElement[]{
+            new MoveTo(515, 348),
+            new LineTo(600, 348)
         });
 
-        //anim.play();
-        //anim[0].play();
-        //anim[1].play();
-        //anim[2].play();
-        //anim[3].play();
+        //Move Down
+        transitions.put("10,2", new PathElement[]{
+            new MoveTo(435, 268),
+            new LineTo(435, 348),
+            new ClosePath()
+        });
+        transitions.put("2,5", new PathElement[]{
+            new MoveTo(435, 348),
+            new LineTo(435, 429)
+        });
+        transitions.put("5,11", new PathElement[]{
+            new MoveTo(435, 429),
+            new LineTo(435, 515)
+        });
+        transitions.put("11,", new PathElement[]{
+            new MoveTo(435, 515),
+            new LineTo(351, 348)
+        });
 
-        Scene scene = new Scene(root, 852, 855, Color.BLACK);
+        //Move Left
+        transitions.put("4,5", new PathElement[]{
+            new MoveTo(515, 429),
+            new LineTo(435, 429)
+        });
+        transitions.put("5,6", new PathElement[]{
+            new MoveTo(435, 429),
+            new LineTo(351, 429)
+        });
+        transitions.put("6,7", new PathElement[]{
+            new MoveTo(351, 429),
+            new LineTo(268, 429)
+        });
+        transitions.put("7,", new PathElement[]{
+            new MoveTo(268, 429),
+            new LineTo(351, 348)
+        });
 
-        primaryStage.setTitle("PathTransition Demo");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        //Move Up
+        transitions.put("8,6", new PathElement[]{
+            new MoveTo(351, 515),
+            new LineTo(351, 429)
+        });
+        transitions.put("6,1", new PathElement[]{
+            new MoveTo(351, 429),
+            new LineTo(351, 348)
+        });
+        transitions.put("1,9", new PathElement[]{
+            new MoveTo(351, 348),
+            new LineTo(351, 268)
+        });
+        transitions.put("9,", new PathElement[]{
+            new MoveTo(351, 268),
+            new LineTo(351, 348)
+        });
     }
 }
